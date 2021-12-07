@@ -222,8 +222,8 @@ class Game {
       //  write the current score
       this.writeTextToCanvas(
         `Score is: ${this.score}`,
-        40,
         this.canvas.width / 2,
+        40,
         40,
       );
     }

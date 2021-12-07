@@ -49,23 +49,23 @@ class Game {
         requestAnimationFrame(this.loop);
     };
     rocketFactory(name, type) {
-        let xPosition = this.randomNumber(0, this.canvas.width - 200);
-        let yPosition = this.randomNumber(0, this.canvas.height - 200);
+        let xPosition = Game.randomInteger(0, this.canvas.width - 200);
+        let yPosition = Game.randomInteger(0, this.canvas.height - 200);
         let image;
         if (type === 'leftToRight') {
             xPosition = 0;
-            image = this.loadNewImage('./assets/rocket-horizontal.png');
+            image = Game.loadNewImage('./assets/rocket-horizontal.png');
         }
         else {
             yPosition = 0;
-            image = this.loadNewImage('./assets/rocket-vertical.png');
+            image = Game.loadNewImage('./assets/rocket-vertical.png');
         }
         return {
             name: name,
             xPos: xPosition,
             yPos: yPosition,
             type: type,
-            speed: this.randomNumber(0, 15),
+            speed: Game.randomInteger(0, 15),
             image: image,
         };
     }
@@ -118,16 +118,16 @@ class Game {
             if (rocket.type === 'leftToRight') {
                 if (rocket.xPos + rocket.image.width >= this.canvas.width) {
                     rocket.xPos = 0;
-                    rocket.yPos = this.randomNumber(0, this.canvas.height);
+                    rocket.yPos = Game.randomInteger(0, this.canvas.height);
                 }
             }
             else if (rocket.yPos + rocket.image.height >= this.canvas.height) {
                 rocket.yPos = 0;
-                rocket.xPos = this.randomNumber(0, this.canvas.height);
+                rocket.xPos = Game.randomInteger(0, this.canvas.height);
             }
         });
     }
-    loadNewImage(source) {
+    static loadNewImage(source) {
         const img = new Image();
         img.src = source;
         return img;
@@ -139,7 +139,7 @@ class Game {
             this.rockets.forEach((rocket) => {
                 this.ctx.drawImage(rocket.image, rocket.xPos, rocket.yPos);
             });
-            this.writeTextToCanvas(this.ctx, `Score is: ${this.score}`, 40, this.canvas.width / 2, 40);
+            this.writeTextToCanvas(`Score is: ${this.score}`, this.canvas.width / 2, 40, 40);
         }
     }
     drawPlayer() {
@@ -151,13 +151,14 @@ class Game {
         this.ctx.strokeStyle = 'red';
         this.ctx.stroke();
     }
-    writeTextToCanvas(ctx, text, fontSize = 20, xCoordinate, yCoordinate, alignment = 'center', color = 'red') {
-        ctx.font = `${fontSize}px Minecraft`;
+    writeTextToCanvas(text, xCoordinate, yCoordinate, fontSize = 20, color = 'red', alignment = 'center') {
+        const ctx = this.canvas.getContext('2d');
+        ctx.font = `${fontSize}px sans-serif`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
-    randomNumber(min, max) {
+    static randomInteger(min, max) {
         return Math.round(Math.random() * (max - min) + min);
     }
 }
