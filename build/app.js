@@ -80,8 +80,8 @@ class Game {
     }
     playerCollidesWithRocket() {
         this.rockets.forEach((rocket) => {
-            let testX;
-            let testY;
+            let testX = this.player.xPos;
+            let testY = this.player.yPos;
             if (this.player.xPos < rocket.xPos) {
                 testX = rocket.xPos;
             }
